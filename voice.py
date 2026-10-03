@@ -5,9 +5,12 @@ import numpy as np
 import pyttsx3
 import sounddevice as sd
 
+import time
 from agent import ask, client, history
 
 SAMPLE_RATE = 16000
+
+
 
 
 def record_until_enter():
@@ -53,6 +56,11 @@ def speak(text):
     engine.runAndWait()
     engine.stop()
 
+def timed(label, fn, *args):
+    t = time.perf_counter()
+    result = fn(*args)
+    print(f"  [{label}: {time.perf_counter() - t:.2f}s]")
+    return result
 
 if __name__ == "__main__":
     greeting = "Hello, Sunrise Dental Clinic. How can I help you today?"
@@ -66,15 +74,20 @@ if __name__ == "__main__":
             print("(didn't catch that, try again)")
             continue
 
-        text = transcribe(to_wav_bytes(audio))
-        if not text:
-            print("(didn't catch that, try again)")
-            continue
-        print("You:", text)
+        try:
+            text = timed("speech-to-text", transcribe, to_wav_bytes(audio))
+            if not text:
+                print("(didn't catch that, try again)")
+                continue
+            print("You:", text)
+            if text.lower().strip(" .!") in ("quit", "exit"):
+                break
+            reply = timed("LLM + tools", ask, text)
+        except Exception as e:
+            print("  [error]", e)
+            reply = "Sorry, I had a technical problem. Could you repeat that?"
 
-        if text.lower().strip(" .!") in ("quit", "exit", "goodbye"):
-            break
-
-        reply = ask(text)
         print("Riya:", reply)
         speak(reply)
+        if "goodbye" in reply.lower():
+            break 
