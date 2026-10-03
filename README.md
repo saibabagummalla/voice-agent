@@ -1,4 +1,4 @@
-# Riya: AI Voice Receptionist for a appointment booking (a dental clinic example )
+# Riya: AI Voice Receptionist for a appointment booking (a dental clinic example)
 A voice agent that answers as a clinic receptionist, checks real availability,
 and books appointments into a database. Built from scratch in Python.
 
