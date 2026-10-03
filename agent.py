@@ -28,7 +28,11 @@ Process:
 - After the caller says yes, say the appointment is confirmed and say goodbye.
 ."""
 history = [{"role": "system", "content": SYSTEM_PROMPT}]
+<<<<<<< HEAD
 MODEL = "openai/gpt-oss-20b"
+=======
+MODEL = "openai/gpt-oss-20"
+>>>>>>> 663a448783b8db5f966450230663963e5354679b
 def ask(user_text):
     history.append({"role": "user", "content": user_text})
     for _ in range(5):  # safety limit on tool rounds
