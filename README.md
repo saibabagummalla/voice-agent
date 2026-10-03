@@ -24,7 +24,7 @@ Python, Groq API (LLM and Whisper), SQLite, sounddevice, pyttsx3
 
 ## Performance
 
-Speech-to-text: ~X s per turn. LLM + tool calls: ~Y s per turn.
+Speech-to-text: ~2.09 s per turn. LLM + tool calls: ~0.96 s per turn.
 
 ## Challenges and fixes
 
